@@ -1,0 +1,39 @@
+# define the compatible compose version
+version: "3.7"
+
+# list all required services
+services:
+
+  # first service
+  item-app:
+
+    # use newly created image on local host
+    image: 23pstars/item-app:v1
+
+    # route the 80 host port to 8080 in the container port
+    ports:
+      - 80:8080
+
+    # wait item-db service to be executed first
+    depends_on:
+      - item-db
+
+    # restart whatever the exit status code
+    restart: always
+
+  # second service
+  item-db:
+
+    # use mongo:3 image from docker hub
+    image: mongo:3
+
+    # bind the volumes
+    volumes:
+      - app-db:/data/db
+
+    # restart whatever the exit status code
+    restart: always
+
+# list all required volumes
+volumes:
+  app-db:

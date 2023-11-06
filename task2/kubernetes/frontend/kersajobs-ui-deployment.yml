@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karsajobs-ui
+  namespace: dicoding
+  labels:
+    app: karsajobs
+    type: frontend
+spec:
+  selector:
+    matchLabels:
+      type: frontend
+  template:
+    metadata:
+      labels:
+        app: karsajobs
+        type: frontend
+    spec:
+      containers:
+        - name: karsajobs-ui
+          image: 23pstars/karsajobs-ui:latest
+          ports:
+            - containerPort: 8000

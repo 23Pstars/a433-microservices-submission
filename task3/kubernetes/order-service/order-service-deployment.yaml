@@ -1,0 +1,28 @@
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: order-service-deployment
+   namespace: dicoding
+ spec:
+   replicas: 1
+   selector:
+     matchLabels:
+       app: order-service
+   template:
+     metadata:
+       labels:
+         app: order-service
+     spec:
+       containers:
+         - name: order-service
+           image: 23pstars/order-service:latest
+           ports:
+             - containerPort: 3000
+           env:
+             - name: AMQP_PASSWORD
+               valueFrom:
+                 secretKeyRef:
+                   name: my-rabbitmq
+                   key: rabbitmq-password
+             - name: AMQP_URL
+               value: "amqp://user:$(AMQP_PASSWORD)@my-rabbitmq:5672"
